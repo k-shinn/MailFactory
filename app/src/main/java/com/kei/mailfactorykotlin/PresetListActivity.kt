@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.kei.mailfactorykotlin.databinding.ActivityPresetListBinding
 import com.kei.mailfactorykotlin.model.MailData
 import com.kei.mailfactorykotlin.presetList.PresetListAdapter
@@ -17,7 +18,7 @@ class PresetListActivity : AppCompatActivity() {
     private val tag: String = "PresetListActivity"
 
     private val binding: ActivityPresetListBinding by lazy {
-//        ActivityPresetListBinding.inflate(layoutInflater).also { setContentView(R.layout.activity_preset_list) }
+        //        ActivityPresetListBinding.inflate(layoutInflater).also { setContentView(R.layout.activity_preset_list) }
         DataBindingUtil.setContentView<ActivityPresetListBinding>(this, R.layout.activity_preset_list)
     }
 
@@ -25,12 +26,12 @@ class PresetListActivity : AppCompatActivity() {
         add(MailData("preset1"))
         add(MailData("preset2"))
         add(MailData("preset3"))
-        add(MailData("preset1"))
-        add(MailData("preset2"))
-        add(MailData("preset3"))
-        add(MailData("preset1"))
-        add(MailData("preset2"))
-        add(MailData("preset3"))
+        add(MailData("preset4"))
+        add(MailData("preset5"))
+        add(MailData("preset6"))
+        add(MailData("preset7"))
+        add(MailData("preset8"))
+        add(MailData("preset9"))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +52,15 @@ class PresetListActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        val presetListAdapter = PresetListAdapter(presetList)
+        val presetListAdapter = PresetListAdapter(presetList).apply {
+            setOnItemClickListener(object : PresetListAdapter.OnItemClickListener {
+                override fun onClick(view: View, data: MailData) {
+                    Snackbar.make(view, "click:" + data.title, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null)
+                            .show()
+                }
+            })
+        }
         binding.presetList.setHasFixedSize(true)
         binding.presetList.layoutManager = LinearLayoutManager(this)
         binding.presetList.adapter = presetListAdapter
